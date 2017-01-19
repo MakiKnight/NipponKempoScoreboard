@@ -1,0 +1,32 @@
+
+
+
+
+
+
+
+
+****************
+* WHAT IS IT ? *
+****************
+
+    NipponKempoScoreBoard is a project developped for the martial art Nippon 
+Kempo, used for tournements. It allows a table referee to change information 
+during a fight according to the main referee. 
+    In 1.0.0 version, could be change :
+        - the countdown value (in millis) and its status (start, pause, stop, reset)
+        - the score of the two opponents,
+        - the faults of the two opponents,
+    When the countdown reaches 00:00, a sound is played.
+    
+HOW TO USE IT
+
+    
+    1) Install node.js on your computer (https://nodejs.org/en/)
+    2) Launch a window terminal
+        - Linux/MacOS : search "terminal" or "console" and go to the placement of the folder public in "NipponKempoScoreBoard"
+            (if your folder is in your Downloads : cd Downloads/NipponKempoScoreBoard/public
+        - Windows : open the terminal from the folder public : naviguate to public, clique on the top (where you can see the adress); and write "cmd"
+    3) Execute the command :
+        - Linux/MaxOs : nodejs app.js
+        - Windows : node app.js 

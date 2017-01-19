@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'digital';
+    src: url('police/DS-DIGI.TTF');
+}
+
+@font-face {
+    font-family: 'bebas';
+    src: url('police/BebasNeue.otf');
+}
+
+table {
+	width: 100%;
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+img {
+    width: 30%;
+    height: 30%;
+}
+
+.score {
+    font-size: 300px;
+    font-family: 'digital';
+}
+
+.titre {
+    font-size: 65px;
+    font-family: 'bebas';
+}
+
+.time {
+    font-size: 150px;
+    font-family: 'digital';
+}
+
+button {
+    border-radius:0;
+    border: none;
+    color: #ffffff;
+}
+
+.start {
+    background-color: #00BFFF;
+    width: 70px;
+    height: 35px;
+}
+
+.stop {
+    background-color: #FF8C00;
+    width: 70px;
+    height: 35px;
+}
+
+.col {
+    table-layout: fixed;
+    width: 200px;    
+}
+
+.valid {
+    background-color: #FF4500;
+    width: 70px;
+    height: 20px;
+}
+
+.pause {
+    background-color: #FF4500;
+    width: 70px;
+    height: 35px;
+}
+
+.reset {
+    background-color: #8B0000;
+    width: 70px;
+    height: 35px;
+}
+
+.chgScore {
+    background-color:#696969;
+    width: 50px;
+    height: 50px;
+}
+
+.fauteGR {
+    background-color:#752323;
+    width: 50px;
+    height: 50px;
+}
+
+.fauteDR {
+    background-color:#752323;
+    width: 50px;
+    height: 50px;
+}
+
+.fauteGB {
+    background-color:#752323;
+    width: 50px;
+    height: 50px;
+}
+
+.fauteDB {
+    background-color:#752323;
+    width: 50px;
+    height: 50px;
+}

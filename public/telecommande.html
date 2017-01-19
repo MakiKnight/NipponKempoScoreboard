@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Administration</title>
+        <style>
+            #zone_chat strong {
+                color: white;
+                background-color: black;
+                padding: 2px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="http://localhost:8080/content/controller.css">
+		<!--<style type="text/css" media="screen">
+		
+			body {
+				background-color: #000000;
+				color: #ffffff;
+			}
+			table {
+				width: 100%;
+			}
+			
+			.time {
+				font-size: 250px;
+			}
+			
+			.score {
+				font-size: 350px;
+			}
+		</style>-->
+    </head>
+	<body>
+		<form action="/" method="POST" id="form_telecommande">
+			<table border="0" style="text-align:center">
+			<tr>
+				<td colspan="3"> 
+				<div class="time" id="time"></div>
+				<div> <input type="text" id="ownTime" placeholder="Your time (in second)" size="10"/> <button class="valid" id="validOwnTime">SELECT</button> </div>
+				<button class="start" id="start">START</button>
+				<button class="stop" id="stop">STOP</button>
+				<button class="pause" id="pause">PAUSE</button>
+				<button class="reset" id="reset">RESET</button>
+				</td>
+			</tr>
+			<tr>
+                            <td>
+                                <div>
+                                        <button class="chgScore" id="plusScRouge">+</button>
+                                        <button class="chgScore" id="moinsScRouge">-</button>
+                                </div>
+                            </td>
+				
+				<td class="titre"> <div> NIPPON KEMPO </div>
+                                    <div>日本拳法</div> </td>
+				<td>
+                                    <div>
+					<button class="chgScore" id="plusScBlanc">+</button>
+					<button class="chgScore" id="moinsScBlanc">-</button>
+				</div>
+				</td>
+				
+			</tr>
+			<tr>
+                                <td class="col">
+                                    
+                                    <font color="red"><span class="score" id="scRouge">0</span></font>
+					
+				</td>
+				<td> <img src="http://localhost:8080/content/img/logo.png"> </td>
+				<td class="col">
+				<span class="score" id="scBlanc">0</span>
+					
+				</td>
+			</tr>
+			<tr>
+				<td> 
+                                    <button class="fauteGR" id="fauteGRouge"></button>
+                                    <button class="fauteDR" id="fauteDRouge"></button>
+				</td>
+				<td> </td>
+				<td> 
+                                    <button class="fauteGB" id="fauteGBlanc"></button>
+                                    <button class="fauteDB" id="fauteDBlanc"></button>
+				</td>
+			</tr>
+			</table>
+        </form>
+	
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+        
+            //Gestion des fautes
+            var fgr = 0;
+            var fdr = 0;
+            var fgb = 0;
+            var fdb = 0;
+           
+
+            // Connexion à socket.io
+            var socket = io.connect('http://localhost:8080');
+			
+			//On informe l'administrateur qu'on est bien connecté
+			socket.on('new_connexion', function() {
+				//alert("Le scoreboard est connecté");
+			});
+			
+			//On met à jour la talbe des scores
+            $('#form_telecommande').submit(function () {
+                var scRouge = $('#scRouge').val();
+				var scBlanc = $('#scBlanc').val();
+				//alert("Rouge : "+scRouge+" Blanc : "+scBlanc);
+                socket.emit('majTable', {scRouge: scRouge, scBlanc: scBlanc}); // Transmet le message aux autres
+                return false; // Permet de bloquer l'envoi "classique" du formulaire
+            });
+			
+			$('#testBouton').on('click',function () {
+				alert("ok");
+				socket.emit('testZero');
+			});
+			
+			//Le score rouge est augmenté de 1
+			$('#plusScRouge').on('click',function () {
+				var scRouge = $('#scRouge').text();
+				var scRouge = parseInt(scRouge)+1;
+				//On ne souhaite pas que le score dépasse 2
+				if(scRouge <= 2){
+					$('#scRouge').html(scRouge);
+					//alert(scRouge);
+					socket.emit('majScRouge', {scRouge: scRouge});
+				}
+			});
+			
+			//Le score rouge est diminué de 1 si le résultat est supérieur ou égal à 0
+			$('#moinsScRouge').on('click',function () {
+				var scRouge = $('#scRouge').text();
+				var scRouge = parseInt(scRouge)-1;
+				//On ne souhaite pas que le score sois en dessous de 0
+				if(scRouge >= 0){
+					$('#scRouge').html(scRouge);
+					socket.emit('majScRouge', {scRouge: scRouge});
+				}
+			});
+			
+			//Le score blanc est augmenté de 1
+			$('#plusScBlanc').on('click',function () {
+				var scBlanc = $('#scBlanc').text();
+				var scBlanc = parseInt(scBlanc)+1;
+				//On ne souhaite pas que le score dépasse 2
+				if(scBlanc <= 2){
+					$('#scBlanc').html(scBlanc);
+					//alert(scBlanc);
+					socket.emit('majScBlanc', {scBlanc: scBlanc});
+				}
+			});
+			
+			//Le score blanc est diminué de 1
+			$('#moinsScBlanc').on('click',function () {
+				var scBlanc = $('#scBlanc').text();
+				var scBlanc = parseInt(scBlanc)-1;
+				//On ne souhaite pas que le score sois en dessous de 0
+				if(scBlanc >= 0){
+					$('#scBlanc').html(scBlanc);
+					//alert(scBlanc);
+					socket.emit('majScBlanc', {scBlanc: scBlanc});
+				}
+			});
+			
+			//Première faute du combattant rouge
+			$('#fauteGRouge').on('click', function () {
+                            switch(fgr) {
+                                case 0:
+                                    $('.fauteGR').css('background-color', 'red');
+                                    socket.emit('fGRouge', 0);
+                                    fgr = 1;
+                                    break;
+                                case 1 : 
+                                    $('.fauteGR').css('background-color', '#752323');
+                                    socket.emit('fGRouge', 1);
+                                    fgr = 0;
+                                    break;
+                            }
+                        });
+                        
+                        //Seconde faute du combattant rouge
+			$('#fauteDRouge').on('click', function () {
+                            switch(fdr) {
+                                case 0:
+                                    $('.fauteDR').css('background-color', 'red');
+                                    socket.emit('fDRouge', 0);
+                                    fdr = 1;
+                                    break;
+                                case 1 : 
+                                    $('.fauteDR').css('background-color', '#752323');
+                                    socket.emit('fDRouge', 1);
+                                    fdr = 0;
+                                    break;
+                            }
+                        });
+                        
+                        //Première faute du combattant blanc
+			$('#fauteGBlanc').on('click', function () {
+                            switch(fgb) {
+                                case 0:
+                                    $('.fauteGB').css('background-color', 'red');
+                                    socket.emit('fGBlanc', 0);
+                                    fgb = 1;
+                                    break;
+                                case 1 : 
+                                    $('.fauteGB').css('background-color', '#752323');
+                                    socket.emit('fGBlanc', 1);
+                                    fgb = 0;
+                                    break;
+                            }
+                        });
+                         
+                        //Première faute du combattant blanc
+			$('#fauteDBlanc').on('click', function () {
+                            switch(fdb) {
+                                case 0:
+                                    $('.fauteDB').css('background-color', 'red');
+                                    socket.emit('fDBlanc', 0);
+                                    fdb = 1;
+                                    break;
+                                case 1 : 
+                                    $('.fauteDB').css('background-color', '#752323');
+                                    socket.emit('fDBlanc', 1);
+                                    fdb = 0;
+                                    break;
+                            }
+                        });
+                        var startValue = 120000; //Number of milliseconds
+			var time = new Date(startValue);
+                        
+                        //Chargement du temps souhaité 
+                        $('#validOwnTime').on('click', function() {
+                            var bla = parseInt($('#ownTime').val());
+                            startValue = bla;
+                            time = new Date(startValue);
+                            socket.emit('chgTime', bla);
+                        });
+                        
+			//Gestion du compte à rebours
+			 
+			var interv;
+			var check = 0;
+			var audio = new Audio('http://localhost:8080/styles/finalSound.ogg');
+                        audio.load();
+
+			function done(){
+				
+                                audio.play();
+			}
+			$(function(){
+				displayTime();
+				$('#start').on('click', function(){
+				socket.emit('start');
+				interv = setInterval(function(){
+					time = new Date(time - 1000);
+					if(time<=0){
+						clearInterval(interv);
+					}
+					if(time<=2000 && check ==0){
+                                            done();
+                                            check = 1;
+                                        }
+					displayTime();
+				}, 1000);
+				});
+				$('#stop').on('click', function(){
+				socket.emit('stop');
+					clearInterval(interv);
+					time = new Date(startValue);
+					displayTime();
+					check = 0;
+				});
+				$('#pause').on('click', function(){
+					socket.emit('pause');
+					clearInterval(interv);
+				});
+				$('#reset').on('click', function(){
+				socket.emit('reset');
+					time = new Date(startValue);
+					displayTime();
+				});
+			});
+
+			function displayTime(){
+				$('#time').text(fillZeroes(time.getMinutes()) + ":" + fillZeroes(time.getSeconds()));
+			}
+
+			function fillZeroes(t){
+				t = t+"";
+				if(t.length==1)
+					return "0" + t;
+				else
+					return t;
+			}
+			
+        </script>
+	</body>
+</html>
