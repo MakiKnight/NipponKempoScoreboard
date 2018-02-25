@@ -100,6 +100,10 @@
 
             // Connexion à socket.io
             var socket = io.connect('http://localhost:8080');
+
+            socket.on('new_connection', function () {
+				alert("Connexion réussie !")
+            })
 			
 			//On informe l'administrateur qu'on est bien connecté
 			socket.on('new_connexion', function() {
@@ -235,7 +239,7 @@
                         
                         //Chargement du temps souhaité 
                         $('#validOwnTime').on('click', function() {
-                            var bla = parseInt($('#ownTime').val());
+                            var bla = parseInt($('#ownTime').val()*1000);
                             startValue = bla;
                             time = new Date(startValue);
                             socket.emit('chgTime', bla);
@@ -245,7 +249,7 @@
 			 
 			var interv;
 			var check = 0;
-			var audio = new Audio('http://localhost:8080/styles/finalSound.ogg');
+			var audio = new Audio('http://localhost:8080/content/sound/finalSound.ogg');
                         audio.load();
 
 			function done(){

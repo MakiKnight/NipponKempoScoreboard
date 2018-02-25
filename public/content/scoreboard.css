@@ -9,23 +9,25 @@
 }
 
 table {
-	width: 100%;
-        height: 100%;
+	width: 100vw;
+    height: 100vh;
 }
 
 .col {
     table-layout: fixed;
-    width: 200px;    
+    width: 33vw;
+    height: 33vh;
 }
 
 body {
     background-color: #000000;
     color: #ffffff;
+    overflow: hidden;
 }
 
 img {
-    width: 30%;
-    height: 30%;
+    width: 100%;
+    height: 100%;
 }
 
 .titre2 {
@@ -33,24 +35,41 @@ img {
 }
 
 .scoreR {
-    font-size: 500px;
+    font-size: 33vh;
     font-family: 'digital';
     margin-left: 0px;
 }
 
 .scoreB {
-    font-size: 500px;
+    font-size: 33vh;
     font-family: 'digital';
     margin-right: 00px;
 }
 
-.titre {
-    font-size: 70px;
+.containTitre {
+    font-size: 8vh;
     font-family: 'bebas';
+    width: 100vw;
+    height: 16vh;
+}
+
+.containTime {
+    width: 100vw;
+    height: 33vh;
+}
+
+.containLogo {
+    width: 33vw;
+    height: 33vh;
+}
+
+.containFaute {
+    width: 50vw;
+    height: 15vh;
 }
 
 .time {
-    font-size: 250px;
+    font-size: 33vh;
     font-family: 'digital';
 }
 
@@ -62,24 +81,24 @@ button {
 
 .fauteGR {
     background-color:#752323;
-    width: 50px;
-    height: 50px;
+    width: 6vh;
+    height: 6vh;
 }
 
 .fauteDR {
     background-color:#752323;
-    width: 50px;
-    height: 50px;
+    width: 6vh;
+    height: 6vh;
 }
 
 .fauteGB {
     background-color:#752323;
-    width: 50px;
-    height: 50px;
+    width: 6vh;
+    height: 6vh;
 }
 
 .fauteDB {
     background-color:#752323;
-    width: 50px;
-    height: 50px;
+    width: 6vh;
+    height: 6vh;
 }

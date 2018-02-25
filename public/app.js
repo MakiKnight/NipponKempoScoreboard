@@ -6,12 +6,15 @@ var express = require('express'),
     fs = require('fs'),
     path = require('path');
 	
-// Chargement de la page telecommande.html
+// Gestion des différents chemin d'accès
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/telecommande.html');
 })
-.get('/score', function (req, res) {
-  res.sendfile(__dirname + '/scoreboard.html');
+    .get('/scoreRef', function (req, res) {
+  res.sendfile(__dirname + '/scoreboardReferee.html');
+})
+    .get('/scorePub', function (req, res) {
+    res.sendfile(__dirname + '/scoreboardPublic.html');
 });
 
 app.use("/content", express.static(__dirname + '/content'));
