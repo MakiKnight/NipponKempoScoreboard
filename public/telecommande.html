@@ -33,17 +33,16 @@
 	<body>
 		<form action="/" method="POST" id="form_telecommande">
 			<table border="0" style="text-align:center">
-			<tr>
-				<td colspan="3"> 
+			<tr class="containTime">
+				<td colspan="3">
 				<div class="time" id="time"></div>
 				<div> <input type="text" id="ownTime" placeholder="Your time (in second)" size="10"/> <button class="valid" id="validOwnTime">SELECT</button> </div>
 				<button class="start" id="start">START</button>
-				<button class="stop" id="stop">STOP</button>
 				<button class="pause" id="pause">PAUSE</button>
 				<button class="reset" id="reset">RESET</button>
 				</td>
 			</tr>
-			<tr>
+			<tr class="containTitre">
                             <td>
                                 <div>
                                         <button class="chgScore" id="plusScRouge">+</button>
@@ -272,21 +271,16 @@
 					displayTime();
 				}, 1000);
 				});
-				$('#stop').on('click', function(){
-				socket.emit('stop');
-					clearInterval(interv);
-					time = new Date(startValue);
-					displayTime();
-					check = 0;
-				});
 				$('#pause').on('click', function(){
 					socket.emit('pause');
 					clearInterval(interv);
 				});
 				$('#reset').on('click', function(){
 				socket.emit('reset');
+                    clearInterval(interv);
 					time = new Date(startValue);
 					displayTime();
+                    check = 0;
 				});
 			});
 

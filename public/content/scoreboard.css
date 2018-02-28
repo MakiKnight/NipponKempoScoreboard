@@ -26,8 +26,8 @@ body {
 }
 
 img {
-    width: 100%;
-    height: 100%;
+    width: 30vh;
+    height: 30vh;
 }
 
 .titre2 {
@@ -35,13 +35,13 @@ img {
 }
 
 .scoreR {
-    font-size: 33vh;
+    font-size: 30vh;
     font-family: 'digital';
     margin-left: 0px;
 }
 
 .scoreB {
-    font-size: 33vh;
+    font-size: 30vh;
     font-family: 'digital';
     margin-right: 00px;
 }
@@ -69,7 +69,7 @@ img {
 }
 
 .time {
-    font-size: 33vh;
+    font-size: 25vh;
     font-family: 'digital';
 }
 
@@ -77,6 +77,8 @@ button {
     border-radius:0;
     border: none;
     color: #ffffff;
+    width: 6vh;
+    height: 6vh;
 }
 
 .fauteGR {
